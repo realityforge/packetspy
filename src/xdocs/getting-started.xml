@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+    <properties>
+        <title>Getting Started</title>
+    </properties>
+
+    <body>
+        <section name="Getting Started">
+            <p>
+                To get started using Packet Spy first you need to
+                <a href="downloads.html">download</a> and
+                <a href="install.html">install</a> Packet Spy as
+                described elsewhere in the documentation.
+            </p>
+            <p>
+                To use Packet Spy you need to first create an instance
+                of <a href="apidocs/packetspy/capture/NativePacketCaptureDriver.html">NativePacketCaptureDriver</a>.
+                Using this driver you need to open a specific network
+                device from which to capture packets from. To get a list
+                of the available network devices you invoke the
+                <a href="apidocs/packetspy/capture/NativePacketCaptureDriver.html#lookupDevices()">NativePacketCaptureDriver.lookupDevices()</a>
+                method.
+            </p>
+            <p>
+                After selecting a device that you want to capture packets
+                from then you need to open the device using the
+                <a href="apidocs/packetspy/capture/NativePacketCaptureDriver.html#open(java.lang.String, int, boolean, int, java.lang.String)">NativePacketCaptureDriver.open()</a>
+                method. You can open the device in 'promiscuous' mode
+                which means that every network packet is captured, even
+                those not intended for the current machine.
+            </p>
+            <p>
+
+                After opening the device you start capturing using the
+                <a href="apidocs/packetspy/capture/NativePacketCaptureDriver.html#capture(int, packetspy.capture.RawPacketHandler)">NativePacketCaptureDriver.capture()</a>
+                method and passing in an instance of the
+                <a href="apidocs/packetspy/capture/RawPacketHandler.html">RawPacketHandler</a>
+                interface to receive the raw message data.
+            </p>
+            <p>
+                Alternatively you could just be interested in the packets
+                after they have already been parsed into supported formats.
+                The following code demonstrates how to capture and print out
+                each packet to the console. The code will preferentially print
+                out the highest layer PDU that it was capable of parsing. ie It
+                will print out the UDP details in preference to the lower level
+                IPv4 or Ethernet2 details.
+            </p>
+            <source><![CDATA[
+import java.util.Arrays;
+import packetspy.capture.NativePacketCaptureDriver;
+import packetspy.model.Packet;
+import packetspy.model.io.ModelPacketListener;
+import packetspy.model.io.RawToModelPacketHandler;
+
+public class BasicPacketSpyApp
+    implements ModelPacketListener
+{
+    public static void main( final String[] args )
+        throws Exception
+    {
+        final NativePacketCaptureDriver capture =
+            new NativePacketCaptureDriver();
+
+        System.out.println( "Looking for Devices." );
+        final String[] devices = NativePacketCaptureDriver.lookupDevices();
+        System.out.println( "Found Devices: " + Arrays.asList( devices ) );
+
+        // Select the first device and just assume it is
+        // the one that we want
+        final String device = devices[0];
+        System.out.println( "Opening Device: " + device );
+
+        // Open device in promiscuous mode, capturing
+        // full packet with timeout of 1000 ms
+        capture.open( device, NativePacketCaptureDriver.MAX_SNAPSHOT_LENGTH,
+                      true, 1000, null );
+
+        System.out.println( "Device open - preparing to capture" );
+
+        final long start = System.currentTimeMillis();
+
+        final RawToModelPacketHandler factory =
+            new RawToModelPacketHandler( new BasicPacketSpyApp() );
+        capture.capture( 10, factory );
+
+        System.out.println( "Recv: " + capture.getReceivedCount() );
+        System.out.println( "Drop: " + capture.getDroppedCount() );
+        System.out.println( "Time: " + ( System.currentTimeMillis() - start ) );
+    }
+
+    public void handlePacket( final Packet packet )
+    {
+        Packet p = packet;
+        Packet last = p;
+        while( null != p )
+        {
+            last = p;
+            p = p.getUpperLayerPacket();
+        }
+        System.out.println( last );
+    }
+}
+]]></source>
+        </section>
+    </body>
+</document>

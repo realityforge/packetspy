@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+    <properties>
+        <title>Links</title>
+    </properties>
+
+    <body>
+        <section name="Links">
+            <subsection name="Packet Capture Toolkits">
+                <ul>
+                    <li><a href="http://sourceforge.net/projects/jpcap/">jpcap @ sourceforge</a>: Java Packet Capture Library</li>
+                    <li><a href="http://netresearch.ics.uci.edu/kfujii/jpcap/doc/index.html">jpcap @ netresearch</a>: Java Packet Capture Library</li>
+
+                    <li>
+                        <a href="http://ee.lbl.gov/">LBNL's Network Research Group</a>: Original
+                        developer of libpcap, a *nix library for capturing network packets. libpcap
+                        is the underlying packet capture layer used on non-windows platforms.
+                    </li>
+                    <li>
+                        <a href="http://winpcap.polito.it">WinPCap</a>: Windows port of the pcap
+                        library for capturing network packets. WinPCap also offers several windows
+                        specific enhancements. WinPCap is the underlying packet capture layer used
+                        on the windows platform.
+                    </li>
+                </ul>
+            </subsection>
+        </section>
+    </body>
+</document>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Packet Spy">
+
+    <title>Packet Spy</title>
+
+    <body>
+        <links>
+            <item href="http://hive.cs.latrobe.edu.au/" name="HIVE"/>
+        </links>
+
+        <menu name="Overview">
+            <item name="Introduction" href="/index.html"/>
+            <item name="Install" href="/install.html"/>
+            <item name="Getting Started" href="/getting-started.html"/>
+            <item name="Building" href="/building.html"/>
+            <item name="Downloads" href="/downloads.html"/>
+            <item name="Contact Details" href="/contacts.html"/>
+        </menu>
+
+        <menu name="Resources">
+            <item name="API Docs" href="/apidocs/index.html"/>
+            <item name="Issue Tracker" href="http://hive.cs.latrobe.edu.au/jira/browse/PSPY"/>
+            <item name="License" href="/license.html"/>
+            <item name="Links" href="/links.html"/>
+            <item name="Subversion Repository" href="http://hive.realityforge.org/svn/packetspy/trunk/"/>
+            <item name="Supporters" href="http://hive.realityforge.org/supporters.html"/>
+        </menu>
+
+    </body>
+
+</project>
+

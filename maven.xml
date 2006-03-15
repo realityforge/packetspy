@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<project default="jar:install" xmlns:ant="jelly:ant" xmlns:deploy="deploy" xmlns:j="jelly:core" xmlns:maven="jelly:maven">
+
+    <goal name="buildRelease">
+        <ant:property name="releaseDir" value="${maven.build.dir}/${maven.final.name}"/>
+
+        <ant:delete dir="${maven.build.dir}"/>
+        <attainGoal name="jar:jar"/>
+        <attainGoal name="site:generate"/>
+
+        <ant:exec dir="${maven.build.dir}" executable="svn" failonerror="true">
+            <ant:arg line="export svn+ssh://peter@hive.cs.latrobe.edu.au/scm/code/packetspy/trunk ${releaseDir}"/>
+        </ant:exec>
+
+        <ant:copy todir="${releaseDir}">
+            <fileset dir="${maven.build.dir}">
+                <include name="docs/**"/>
+            </fileset>
+        </ant:copy>
+
+        <ant:copy file="${maven.build.dir}/${maven.final.name}.jar" todir="${releaseDir}"/>
+
+        <ant:available file="${basedir}/${maven.final.name}.dll" property="dll.present"/>
+        <ant:available file="${basedir}/lib${maven.final.name}.so" property="so.present"/>
+        <j:if test="${dll.present != true}">
+            <ant:echo message="WARNING: Windows native library is missing from the distribution."/>
+        </j:if>
+        <j:if test="${so.present != true}">
+            <ant:echo message="WARNING: Linuxs native library is missing from the distribution."/>
+        </j:if>
+
+        <j:if test="${dll.present}">
+            <copy file="${basedir}/${maven.final.name}.dll" todir="${releaseDir}"/>
+        </j:if>
+        <j:if test="${so.present}">
+            <copy file="${basedir}/lib${maven.final.name}.so" todir="${releaseDir}"/>
+        </j:if>
+
+        <j:file name="${releaseDir}/README.txt" omitXmlDeclaration="true" escapeText="false">
+             ${pom.shortDescription} toolkit: See docs/index.html for documentation.
+        </j:file>
+
+	<ant:mkdir dir="${maven.build.dir}/distributions"/>
+
+        <ant:tar longfile="gnu" tarfile="${maven.build.dir}/distributions/${maven.final.name}.tar">
+            <ant:tarfileset prefix="${maven.final.name}" dir="${releaseDir}" mode="755">
+                <ant:include name="**/*.sh"/>
+                <ant:include name="**/*.so"/>
+            </ant:tarfileset>
+            <ant:tarfileset prefix="${maven.final.name}" dir="${releaseDir}">
+                <ant:exclude name="**/*.sh"/>
+                <ant:exclude name="**/*.so"/>
+            </ant:tarfileset>
+        </ant:tar>
+
+        <ant:gzip
+            zipfile="${maven.build.dir}/distributions/${maven.final.name}.tar.gz"
+            src="${maven.build.dir}/distributions/${maven.final.name}.tar"
+            />
+
+        <ant:delete file="${maven.build.dir}/distributions/${maven.final.name}.tar"/>
+
+        <!-- Create a zip file -->
+        <ant:zip zipfile="${maven.build.dir}/distributions/${maven.final.name}.zip">
+            <ant:zipfileset prefix="${maven.final.name}" dir="${releaseDir}"/>
+        </ant:zip>
+    </goal>
+
+    <goal name="deployRelease" prereqs="buildRelease">
+        <deploy:artifact
+            artifact="${maven.build.dir}/distributions/${maven.final.name}.tar.gz"
+            type="distributions"
+            assureDirectoryCommand="mkdir -p"
+            siteCommand="cd @deployDirectory@;chmod -R g+u *;"
+            />
+        <deploy:artifact
+            artifact="${maven.build.dir}/distributions/${maven.final.name}.zip"
+            type="distributions"
+            assureDirectoryCommand="mkdir -p"
+            siteCommand="cd @deployDirectory@;chmod -R g+u *;"
+            />
+        <deploy:artifact
+            artifact="${maven.build.dir}/${maven.final.name}.jar"
+            type="jars"
+            assureDirectoryCommand="mkdir -p"
+            siteCommand="cd @deployDirectory@;chmod -R g+u *;"
+            />
+    </goal>
+
+    <!--
+        Add a preGoal that we know will execute to generate the version data
+        and try to rename the native librarys.
+    -->
+    <preGoal name="java:compile">
+        <attainGoal name="genVersion"/>
+        <attainGoal name="renameNativeLibraries"/>
+    </preGoal>
+
+    <postGoal name="java:compile">
+        <attainGoal name="genJNIHeaders"/>
+    </postGoal>
+
+    <goal name="genJNIHeaders">
+        <ant:mkdir dir="generated/include"/>
+        <ant:exec dir="${basedir}/generated/include" executable="javah" failonerror="true">
+            <ant:arg line="-classpath ${maven.build.dir}/classes packetspy.capture.NativePacketCaptureDriver"/>
+        </ant:exec>
+    </goal>
+
+    <goal name="renameNativeLibraries">
+        <available file="${basedir}/packetspy.dll" property="dll.present"/>
+        <available file="${basedir}/libpacketspy.so" property="so.present"/>
+        <j:if test="${dll.present}">
+            <copy file="${basedir}/packetspy.dll"
+                tofile="${basedir}/packetspy-${pom.currentVersion}.dll"/>
+        </j:if>
+        <j:if test="${so.present}">
+            <copy file="${basedir}/libpacketspy.so"
+                tofile="${basedir}/libpacketspy-${pom.currentVersion}.so"/>
+        </j:if>
+    </goal>
+
+    <goal name="genVersion">
+        <ant:mkdir dir="${basedir}/generated/java/packetspy/capture"/>
+        <ant:tstamp/>
+        <j:file name="${basedir}/generated/java/packetspy/capture/Version.java" omitXmlDeclaration="true" escapeText="false">
+        package packetspy.capture;
+        public interface Version
+        {
+        String NAME = "${pom.name}";
+        String SOFTWARE = "${pom.artifactId}";
+        String VERSION = "${pom.currentVersion}";
+        String LIBRARY = SOFTWARE + "-" + VERSION;
+        String DATE = "${TODAY}";
+        }
+        </j:file>
+        <ant:path id="version.src.set" location="${basedir}/generated/java"/>
+        <maven:addPath id="maven.compile.src.set" refid="version.src.set"/>
+    </goal>
+
+</project>

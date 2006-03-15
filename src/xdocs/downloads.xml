@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+    <properties>
+        <title>Downloads</title>
+    </properties>
+
+    <body>
+        <section name="Release 0.2">
+            <p>
+                The initial release of Packet Spy can be downloaded
+                from the following locations. The distribution includes
+                the native libraries for both windows and linux. For
+                other platforms the user should build native library
+                from source.
+            </p>
+            <ul>
+                <li><a href="http://hive.cs.latrobe.edu.au/dist/packetspy/distributions/packetspy-0.2.zip">http://hive.cs.latrobe.edu.au/dist/packetspy/distributions/packetspy-0.2.zip</a></li>
+                <li><a href="http://hive.cs.latrobe.edu.au/dist/packetspy/distributions/packetspy-0.2.tar.gz">http://hive.cs.latrobe.edu.au/dist/packetspy/distributions/packetspy-0.2.tar.gz</a></li>
+            </ul>
+        </section>
+    </body>
+</document>

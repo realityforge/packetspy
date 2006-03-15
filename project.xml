@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<project>
+    <pomVersion>3</pomVersion>
+
+    <groupId>packetspy</groupId>
+    <id>packetspy</id>
+
+    <name>Packet Spy</name>
+    <shortDescription>Packet Capture Library.</shortDescription>
+    <currentVersion>0.3-dev</currentVersion>
+
+    <description>Packet Capture Library.</description>
+    <inceptionYear>2004</inceptionYear>
+
+    <organization>
+        <name>Peter Donald</name>
+        <url>http://hive.cs.latrobe.edu.au/</url>
+        <!--
+        <logo>http://hive.cs.latrobe.edu.au/latrobe-small.gif</logo>
+        -->
+    </organization>
+
+    <url>http://hive.cs.latrobe.edu.au/packetspy</url>
+
+    <distributionDirectory>/local/sites/dist</distributionDirectory>
+    <distributionSite>hive.cs.latrobe.edu.au</distributionSite>
+    <siteAddress>hive.cs.latrobe.edu.au</siteAddress>
+    <siteDirectory>/local/sites/packetspy</siteDirectory>
+
+    <build>
+        <sourceDirectory>src/java</sourceDirectory>
+        <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+
+        <unitTest>
+            <resource>
+                <directory>${basedir}/src/test</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+
+            <includes>
+                <include>**/*TestCase*</include>
+            </includes>
+            <excludes>
+                <exclude>**/Abstract*</exclude>
+            </excludes>
+        </unitTest>
+    </build>
+
+    <reports>
+        <report>maven-javadoc-plugin</report>
+        <report>maven-license-plugin</report>
+    </reports>
+
+</project>

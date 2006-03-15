@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+    <properties>
+        <title>Install</title>
+    </properties>
+
+    <body>
+        <section name="Install">
+            <p>
+                There is two parts of Packet Spy; the java library and the
+                native library. The java library (packetspy-X.X.jar) must be
+                placed in the CLASSPATH of the application using Packet Spy.
+                The native library (packetspy-X.X.dll under windows or
+                libpacketspy-X.X.so under *nix) must be addded to the
+                java library path.
+            </p>
+            <p>
+                Under *nix platforms such as Linux you need to set the
+                environment variable LD_LIBRARY_PATH to include the directory
+                that the libpacketspy-X.X.so library is included. Assuming that
+                packetspy is installed in /usr/local/packetspy-X.X then you
+                need to do something like the following;
+            </p>
+            <source><![CDATA[
+set LD_LIBRARY_PATH=/usr/local/packetspy-X.X
+export LD_LIBRARY_PATH
+]]></source>
+            <p>
+                Under windows platforms you need to copy the packetspy-X.X.dll
+                library to either the windows system directory or preferrably
+                into the working directory of the application using Packet Spy.
+            </p>
+            <p>
+                The user also needs to install the underlying packet capture
+                library. Under windows this is WinPCap and under *nix based
+                systems this is libpcap. See the <a href="links.html">links</a>
+                page for where to download and install the library from.
+            </p>
+        </section>
+    </body>
+</document>

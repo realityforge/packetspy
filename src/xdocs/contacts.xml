@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+    <properties>
+        <title>Contact Details</title>
+    </properties>
+
+    <body>
+        <section name="Contact Details">
+            <p>
+                Packet Spy was developed by Peter Donald as part of the Hive research
+                project. To contact Peter directly use the following email address. It is
+                encoded as an image to avoid spam.
+            </p>
+            <img src="images/email.png" alt="Email Address"/>
+        </section>
+    </body>
+</document>

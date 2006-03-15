@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+    <properties>
+        <title>Introduction</title>
+    </properties>
+
+    <body>
+        <section name="Introduction">
+            <p>
+                Packet Spy is a java library that provides a mechanism for
+                network packet capture. The library supports developers who
+                wish to write cross platform network packet capture programs.
+            </p>
+            <p>
+                Packet Spy uses the libpcap library under *nix style systems
+                and WinPCap library on Windows systems. Packet Spy also
+                provides a basic protocol decosing layer for popular protocols
+                such as; Ethernet2 (IEEE 802.3), IPv4, ICMP, IGMP, TCP and UDP.
+            </p>
+            <p>
+                Packet Spy was developed as part of the
+                <a href="http://hive.cs.latrobe.edu.au/">Hive</a> research
+                project. Initially Hive considered using the exisiting
+                java packet capture libraries. The existing libraries had
+                limitations that prohibitted their use in long running packet
+                capture applications. This limitation was acceptable in the
+                context of the research Hive was undertaking and as a result
+                Packet Spy was developed. No code from the existing libraries
+                was incorporated into Packet Spy but many of the ideas and
+                approaches can be directly credited to the existing libraries.
+            </p>
+        </section>
+    </body>
+</document>

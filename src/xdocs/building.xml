@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+    <properties>
+        <title>Building Packet Spy</title>
+    </properties>
+
+    <body>
+        <section name="Building Packet Spy">
+            <p>
+                Packet Spy is made up of a native library and a java
+                interface. Unfortunately there is no single build process
+                as Make and/or Visual Studio is used to build the native
+                component and Maven is used to build the java library,
+                distribution and documentation. You can download the source
+                as per the instructions on the
+                <a href="downloads.html">downloads</a> page.
+            </p>
+            <p>
+                The following libraries and/or tools were used to build
+                Packet Spy. They must be downloaded and installed prior
+                to building Packet SPy.
+            </p>
+            <ul>
+                <li>Apache Maven 1.0-RC2. Download from <a href="http://maven.apache.org">http://maven.apache.org</a>.</li>
+                <li>Sun 1.4.2_04 JDK (under Windows)</li>
+                <li>WinPCap 3_1_beta_3 (under Windows)</li>
+                <li>Blackdown 1.4.1 JDK (under Linux)</li>
+                <li>Libpcap 0.8 (under Linux)</li>
+            </ul>
+            <p>
+                The include files and library files of the pcap library and the
+                jdk must be made available to the Packet Spy build process. This
+                can be done by either modifying <code>src/make/Makefile</code>
+                (under Linux) or by adding the paths to the VC++ Directories
+                configuration (under Windows).
+            </p>
+            <p>
+                The first step is to type <code>maven</code> in command line
+                in the the base directory. This will compile the java library
+                and generate c headers for inclusion in the native library.
+                Then you need to build the native component either via
+                <code>cd src/make; make</code> (under Linux) or via loading and
+                building the <code>src/make/dot.net/packetspy.sln</code> Solution
+                into Visual Studio (under Windows). The last step is to run
+                <code>maven</code> again as this will rename the native library
+                to the name expected by the compiled java library. At this point
+                you should have a complete build for your platform. Congratulations!
+            </p>
+        </section>
+    </body>
+</document>
